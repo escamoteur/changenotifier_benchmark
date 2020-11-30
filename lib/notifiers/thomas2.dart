@@ -15,7 +15,6 @@ class Thomas2ChangeNotifier {
   List<_Listener> _listeners = List<_Listener>();
   int _notificationCallStackDepth = 0;
   int _removedListeners = 0;
-  int _listenerLengh; // This is the length on the first not recursive call
 
   bool get hasListeners {
     return _listeners.isNotEmpty;
@@ -51,8 +50,8 @@ class Thomas2ChangeNotifier {
     _notificationCallStackDepth++;
 
     if (_listeners != null) {
-      _listenerLengh ??= _listeners.length;
-      for (int i = 0; i < _listenerLengh; i++) {
+      final length = _listeners.length;
+      for (int i = 0; i < length; i++) {
         try {
           _listeners[i]();
         } catch (exception, stack) {
@@ -74,7 +73,6 @@ class Thomas2ChangeNotifier {
         }
         _listeners = newListeners;
       }
-      _listenerLengh = null;
       _removedListeners = 0;
     }
   }
